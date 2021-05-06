@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for entry in data %}
+        <div class="content-section">
+            <h3>{{ entry.date }}</h3>
+            <p>{{ entry.tags }}</p>
+            <img src="{{ entry.image_src }}" style="height:200px">
+        </div>
+    {% endfor %}
+
+    {% for image in images %}
+        <div class="content-section">
+            <img src="{{ image }}" style="height:200px">
+        </div>
+    {% endfor %}
+{% endblock content %}
