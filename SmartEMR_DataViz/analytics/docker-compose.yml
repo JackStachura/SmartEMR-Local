@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+    nl4dv-docker:
+        build: .
+        image: analytics/nl4dv
+        ports:
+            - "5000:80"
