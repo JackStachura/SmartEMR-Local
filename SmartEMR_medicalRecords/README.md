@@ -1,4 +1,4 @@
-#Medical Records
+# Medical Records
 The information in this file is to create the database. This file also includes a python file to run to generate the data for the database.
 # MySQL
 Have MySQL version 8.0 installed.
