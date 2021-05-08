@@ -1,7 +1,7 @@
 # SmartEMR-Local
 Codebase for SmartEMR, a Clinical Data Integration project for UConn SDP 2021. See README for instructions on local instance setup. 
 
-##Configuring a Local SmartEMR Instance
+## Configuring a Local SmartEMR Instance
 To configure SmartEMR for local deployment, begin by following the README instruction files in each of the following subdirectories
 ```
 SmartEMR_DataViz/
