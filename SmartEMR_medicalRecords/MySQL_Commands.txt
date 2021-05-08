@@ -1,0 +1,144 @@
+CREATE TABLE Persons ( 
+PersonID varchar(20) NOT NULL, 
+Date_of_birth datetime NOT NULL Default current_timestamp, 
+Sex varchar(4)  NOT NULL  Default 'XX', 
+Orthodontic_treatment BOOLEAN NOT NULL Default 0, 
+PRIMARY KEY (PersonID) 
+); 
+
+CREATE TABLE dental_record ( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate  datetime  NOT NULL Default current_timestamp,  
+Num_Teeth int NOT NULL, 
+Dentition_stage varchar(20) DEFAULT 'permanent', 
+Erupt_rate varchar(20) DEFAULT 'normal', 
+Occlusion varchar(20) DEFAULT 'normal', 
+Tooth_color   varchar(20) DEFAULT 'normal', 
+Oral_hygiene varchar (20)  DEFAULT 'good', 
+TMJ BOOLEAN  NOT NULL Default FALSE, 
+Note varchar(255),  
+PRIMARY KEY (P_ID, LoggedDate), 
+FOREIGN KEY (P_ID) REFERENCES Persons(PersonID) 
+); 
+
+CREATE TABLE Health_Condition( 
+Condition_ID varchar(10) NOT NULL, 
+Name varchar(40) NOT NULL, 
+Type varchar(40) NOT NULL, 
+Acronym varchar(12), 
+PRIMARY KEY (Condition_ID) 
+); 
+
+CREATE TABLE Diagnose( 
+P_ID varchar(20) NOT NULL, 
+C_ID varchar(20) NOT NULL, 
+LoggedDate datetime NOT NULL, 
+End_Date datetime, 
+Degree_of_Severity varchar(30), 
+FOREIGN KEY (P_ID) REFERENCES Persons(PersonID), 
+FOREIGN KEY (C_ID) REFERENCES Health_Condition(Condition_ID) 
+); 
+ 
+CREATE TABLE EYES ( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate  datetime   NOT NULL Default current_timestamp,  
+Iris_R  varchar(20) , 
+Iris_L  varchar(20) , 
+Sclera  varchar(20), 
+Depth_Perception int, 
+Mobility int, 
+Notes varchar(100), 
+PRIMARY KEY (P_ID, LoggedDate), 
+FOREIGN KEY (P_ID) REFERENCES Persons (PersonID) 
+); 
+ 
+CREATE TABLE Growth( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate datetime NOT NULL Default current_timestamp,  
+Height float(5) NOT NULL, 
+Weight  float(5) NOT NULL, 
+HealthHabbit  varchar(1000),  
+Note varchar(1000),  
+PRIMARY KEY (P_ID, LoggedDate), 
+FOREIGN KEY (P_ID) REFERENCES Persons(PersonID) 
+); 
+ 
+CREATE TABLE Gums( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate  datetime   NOT NULL Default current_timestamp,  
+Hyperplasia BOOLEAN  Default FALSE, 
+Gingivitis  BOOLEAN Default FALSE, 
+Periodontitis  BOOLEAN Default FALSE, 
+Pocket_depths float, 
+Mobility  float, 
+PRIMARY KEY (P_ID, LoggedDate), 
+FOREIGN KEY (P_ID, LoggedDate) REFERENCES dental_record (P_ID, LoggedDate)
+); 
+ 
+CREATE TABLE Has_Mutation ( 
+P_ID varchar(20) NOT NULL, 
+Gene varchar(20) NOT NULL, 
+Note varchar(1000),  
+PRIMARY KEY (P_ID, Gene), 
+FOREIGN KEY (P_ID) REFERENCES Persons(PersonID) 
+); 
+   
+CREATE TABLE Tooth ( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate  datetime   NOT NULL Default current_timestamp,  
+Tooth varchar(20) NOT NULL, 
+Side  varchar(20)       NOT NULL, 
+Position  varchar(20)    NOT NULL  Default 'First', 
+Upper BOOLEAN  NOT NULL  Default FALSE, 
+Secondary BOOLEAN  NOT NULL  Default TRUE, 
+Missing  BOOLEAN NOT NULL Default FALSE, 
+Size  varchar(20)  Default 'Normal', 
+Color  varchar(20), 
+Eruption  int,  
+Caries  BOOLEAN  Default  FALSE, 
+Occlusal_wear  BOOLEAN   Default FALSE, 
+PRIMARY KEY (P_ID, LoggedDate, Tooth, Side, Position, Upper, Secondary), 
+FOREIGN KEY (P_ID, LoggedDate) REFERENCES dental_record (P_ID, LoggedDate)
+);
+ 
+CREATE TABLE clinical_notes ( 
+P_ID varchar(20) NOT NULL, 
+LoggedDate datetime Default current_timestamp, 
+Drug varchar(20), 
+Strength varchar(40), 
+Duration varchar(20), 
+Route varchar(20), 
+Form varchar(20), 
+ADE varchar(20), 
+Dosage varchar(20), 
+Reason varchar(40), 
+Frequency varchar(20), 
+Note varchar(255) NOT NULL, 
+PRIMARY KEY (P_ID, LoggedDate) 
+); 
+ 
+INSERT INTO Health_Condition
+(Condition_ID,  Name, Type)
+Values
+('C1', 'Cleft Lip', 'Congenital Genetic Defect'),
+('C2', 'Cleft Plate', 'Congenital Genetic Defect'),
+('C3', 'Tumor', 'Cell Defect'),
+('C4', 'Hyperdontia', 'Teeth Defect'),
+('C5', 'Swelling', 'Injury'),
+('C6', 'Bone Fracture', 'Bone Injury'),
+('C7', 'Discolored Teeth', 'Teeth Defect'),
+('C8', 'Discolored Sclera', 'Eye Defect'),
+('C9', 'Wound', 'Injury'),
+('C10', 'Head Trauma', 'Brain Injury'),
+('C11', 'Bone deformities', 'Bone defect'),
+('C12', 'Cancer', 'Cell defect'),
+('C13', 'Diabetes', 'Insulin Disorder');
+
+
+INSERT INTO Health_Condition
+(Condition_ID,  Name, Type, Acronym)
+Values
+('C14', 'Temporomandibular joint', 'Jaw Defect', 'TMJ'),
+('C15', 'Human Immunodeficiency Virus', 'Sexually Transmitted Disease', 'HIV'),
+('C16', 'Acquired Immunodeficiency Syndrome', 'Sexually Transmitted Disease', 'AIDS');
+
