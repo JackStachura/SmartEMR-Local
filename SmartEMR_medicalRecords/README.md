@@ -8,7 +8,7 @@ CREATE DATABASE medicalRecords
 ```
 
 # SQL Data generator
-Make sure to have python3 installed as well as the following the libraries
+Make sure to have python3 installed as well as the following library
 ```
 pip3 install mysql-connector-pytho
 ```
