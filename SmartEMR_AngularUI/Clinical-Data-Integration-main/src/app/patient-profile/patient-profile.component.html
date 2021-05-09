@@ -1,0 +1,120 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="container-lg mt-5" style="margin: auto">
+    <div class="container-lg m-5" >
+        <br><button class="collapsible" id="creation-button" (click)="showOrHidePatientCreation()">Create Patient Profile</button><br> <br> <br> <br>
+        
+        <form class="needs-validation" id="create-form"  novalidate>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+            <label for="validationCustom01">First name</label>
+            <input type="text" class="form-control form-controlC" id="validationCustomFnameC" placeholder="First name" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            </div>
+            <div class="col-md-4 mb-3">
+            <label for="validationCustom02">Last name</label>
+            <input type="text" class="form-control form-controlC" id="validationCustomLnameC" placeholder="Last name"  required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            </div>
+            <div class="col-md-4 mb-3">
+            <label for="validationCustomUsername">Patient ID</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                </div>
+                <input type="text" class="form-control form-controlC" id="validationCustomUsernameC" placeholder="Patient ID" aria-describedby="inputGroupPrepend" required>
+                <div class="invalid-feedback">
+                Please choose a username.
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+            <label for="validationCustom03">DOB</label>
+            <input type="text" class="form-control form-controlC" id="validationCustomDOBC" placeholder="DOB" required>
+            <div class="invalid-feedback">
+                Please provide a valid city.
+            </div>
+            </div>
+            <div class="col-md-3 mb-3">
+            <label for="validationCustom04">Phone</label>
+            <input type="text" class="form-control form-controlC" id="validationCustomPhoneC" placeholder="Phone" required>
+            <div class="invalid-feedback">
+                Please provide a valid state.
+            </div>
+            </div>
+            <div class="col-md-3 mb-3">
+            <label for="validationCustom05">SSN4</label>
+            <input type="text" class="form-control form-controlC" id="validationCustomSSNC" placeholder="SSN4" required>
+            <div class="invalid-feedback">
+                Please provide a valid zip.
+            </div>
+            </div>
+        </div>
+        <button class="btn btn-primary mb-3" type="submit" style="padding : 5px; margin : 0 auto; left: 50%;" (click)="createForm()">Submit</button>
+        </form>
+    </div>
+    <div class="container-lg m-5" >
+        <br><button class="collapsible" id="fetch-button" (click)="showOrHidePatientFetch()">Search Patient Profile</button><br> <br> <br> <br>
+        
+            <form class="needs-validation" id="fetch-form" novalidate>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                <label for="validationCustom01">First name</label>
+                <input type="text" class="form-control form-controlS" id="validationCustom01" placeholder="First name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Last name</label>
+                <input type="text" class="form-control form-controlS" id="validationCustom02" placeholder="Last name"  required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                <label for="validationCustomUsername">Patient ID</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    </div>
+                    <input type="text" class="form-control form-controlS" id="validationCustomUsername" placeholder="Patient ID" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                    Please choose a username.
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                <label for="validationCustom03">City</label>
+                <input type="text" class="form-control form-controlS" id="validationCustom03" placeholder="City" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                <label for="validationCustom04">State</label>
+                <input type="text" class="form-control form-controlS" id="validationCustom04" placeholder="State" required>
+                <div class="invalid-feedback">
+                    Please provide a valid state.
+                </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                <label for="validationCustom05">Zip</label>
+                <input type="text" class="form-control form-controlS" id="validationCustom05" placeholder="Zip" required>
+                <div class="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
+                </div>
+            </div>
+            <button class="btn btn-primary mb-3" type="submit" style="padding : 5px; margin : 0 auto; left: 50%;" (click)="searchForm()">Submit</button>
+            </form>
+        </div>
+    </div>
+

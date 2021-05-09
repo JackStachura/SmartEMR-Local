@@ -1,0 +1,228 @@
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<div class="container">
+	<!-- For demo purpose -->
+	<div class="row py-5">
+		<div class="col-lg-9 mx-auto text-white text-center">
+			<h1 class="display-4 text-dark">SmartQuery Engine</h1>
+			<p class="lead mb-0 text-dark">Natural Langauge to SQL Parser</p>
+		</div>
+	</div>
+	<!-- End -->
+
+	<form [formGroup]="formGroup" (ngSubmit)="onSubmitAssisted(formGroup.value); findImages(formGroup.value)"
+		autocomplete="off">
+		<!------------------------- Disable Autocomplete -------------------------->
+		<input autocomplete="false" name="hidden" type="text" style="display:none;">
+		<!------------------------------------------------------------------------->
+		<div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+			<div class="input-group">
+				<button id="button-pin1" (click)="pinSearch(formGroup.value)"><i class="fas fa-thumbtack" id="pinned"></i></button>
+				<input type="text" placeholder="What're you searching for?" aria-describedby="button-addon1"
+					class="form-control border-0 bg-light form-control-lg" formControlName="query" id="query"
+					spellcheck="false" value="hello!">
+				<div class="input-group-append">
+					<button id="button-addon1" type="submit" class="btn btn-link text-primary"
+						(click)="activate = true;"><i class="fa fa-search fa-lg"></i></button>
+					<!--<button class="btn btn-lg btn-success" type="submit" (click) = "findImages(formGroup.value); activate = true">Search</button> -->
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>
+
+<!--
+<div *ngIf="activate" class="container-lg m-5" style="background:#F9F9F9">
+<div style="width: 100%;">
+<div *ngIf="activate" class="container-lg m-3" style="background:#F9F9F9; width: 50%">
+    <h3 class="text-left pt-3">Query Result:</h3>
+	<p class="text-left pb-1">Tables related to your search:</p>
+	<div class="container">
+		<div class="row justify-content-center">
+			<table class="styled-table" *ngIf="activate">
+				<thead>
+					<tr>
+						<th>Query</th>
+						<th>Result</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{latestQuery}}</td>
+						<td>15.6%</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+-->
+
+<div *ngIf="activate" style="margin-left: 55%; width: 50%;">
+	<h3 class="text-left pt-3">Query History:</h3>
+	<p class="text-left pb-1">Click on a query to go back to a previous result:</p>
+	<div class="container">
+		<div class="row justify-content-center">
+			<table class="styled-table" *ngIf="activate">
+				<thead>
+					<tr>
+						<th>Query History</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<div *ngFor = "let q of queries; index as i">
+							<td (click) = "update2(q); findImages2(q); onSubmit2(q); activate = true">{{q}}</td>
+						</div>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+
+<div *ngIf="response_table[0]!='NONE' && response_table.length > 0 && activate" class="wide-container">
+	<div class="card">
+		<div class="card-body">
+			<div class="d-flex justify-content-between">
+				<h4 class="card-title">Relevant Categories</h4>
+			</div>
+			<div class="data_source" *ngFor=" let header of response_table[0]?.split(' ')">{{header.replace("|", "")}}
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div *ngIf="response_table.length > 0" class="wide-container">
+	
+	<div class="card">
+		<div class="card-body">
+			<div class="d-flex justify-content-between">
+				<h4 class="card-title">Associated Records</h4>
+			</div>
+			<div *ngIf="response_table[0]!='NONE'" class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>Success</strong>, we found data that may be related to your search!
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div *ngIf="response_table[0]=='NONE'" class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>Error</strong>, we found no data related to your query. Please try again!
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<table *ngIf="response_table[0]!='NONE'" class="row-border hover">
+				<thead>
+					<tr>
+						<th *ngFor="let header of response_table[0]?.split('| ')">{{header}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let row of response_table | slice:1">
+						<td *ngFor="let element of row.split('|', response_table[0]?.split('| ').length)">
+							{{element}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+<!--
+<div *ngIf="images.length > 0" class="container-lg m-3" style="background:#F9F9F9; width: 50%">
+<div *ngIf="images.length > 0" class="container-lg m-5" style="background:#F9F9F9">
+	<h3 class="text-left pt-3">Associated Images</h3>
+	<p class="text-left pb-1">Images we found associated to your search:</p>
+	<div class="row">
+		<div class="column">
+			<div *ngFor="let image of images; index as i">
+				<ng-container [ngSwitch]="true">
+					<div *ngSwitchCase="(i+1)%3 === 0 && i > 0"></div>
+					<div *ngSwitchCase="((i+1)%3)%2 === 0 && i > 0"></div>
+					<div *ngSwitchDefault>
+						<img [src]="getimageurl + images[i]" />
+					</div>
+				</ng-container>
+			</div>
+		</div>
+		<div class="column">
+			<div *ngFor="let image of images; index as i">
+				<ng-container [ngSwitch]="true">
+					<div *ngSwitchCase="(i+1)%3 === 0 && i > 0"></div>
+					<div *ngSwitchCase="((i+1)%3)%2 === 0 && i > 0 && (i+1)%3>0">
+						<img [src]="getimageurl + images[i]" />
+					</div>
+					<div *ngSwitchDefault></div>
+				</ng-container>
+			</div>
+		</div>
+		<div class="column">
+			<div *ngFor="let image of images; index as i">
+				<ng-container [ngSwitch]="true">
+					<div *ngSwitchCase="(i+1)%3 === 0 && i > 0">
+						<img [src]="getimageurl + images[i]" />
+					</div>
+					<div *ngSwitchCase="((i+1)%3)%2 === 0 && i > 0"></div>
+					<div *ngSwitchDefault></div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+-->
+<div  *ngIf="response_table[0]!='NONE' && response_table.length > 0" class="container">
+	<!-- For demo purpose -->
+	<div class="row py-5">
+		<div class="col-lg-9 mx-auto text-white text-center">
+			<h1 class="display-4 text-dark">SmartQuery Engine</h1>
+			<p class="lead mb-0 text-dark">Generate Data Visualizations from Natural Language Queries</p>
+		</div>
+	</div>
+	<!-- End -->
+
+	<form [formGroup]="formGroup2" (ngSubmit)="onSubmitAnalysis(formGroup2.value)" autocomplete="off">
+		<!------------------------- Disable Autocomplete -------------------------->
+		<input autocomplete="false" name="hidden" type="text" style="display:none;">
+		<!------------------------------------------------------------------------->
+		<div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+			<div class="input-group">
+				<input type="text" placeholder="What're you searching for?" aria-describedby="button-addon1"
+					class="form-control border-0 bg-light form-control-lg" formControlName="query2" id="query2"
+					spellcheck="false">
+				<div class="input-group-append">
+					<button id="button-addon2" type="submit" class="btn btn-link text-primary"
+						(click)="visualization = true;"><i class="fa fa-chart-pie fa-lg"></i></button>
+					<!--<button class="btn btn-lg btn-success" type="submit" (click) = "findImages(formGroup.value); activate = true">Search</button> -->
+				</div>
+			</div>
+		</div>
+		<br><br><br>
+	</form>
+</div>
+
+
+<div *ngIf="showVisBox == true && response_table[0]!='NONE' && response_table.length > 0 && activate"
+	class="container d-flex justify-content-center">
+	<div id="vis"></div>
+</div>
+
+<br><br><br><br><br>
+
+<div *ngIf="showVisBox == false && response_table[0]!='NONE' && response_table.length > 0 && activate">
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+
+<div *ngIf="showVisBox == true && response_table[0]!='NONE' && response_table.length > 0 && activate" class="container">
+	<hr>
+</div>

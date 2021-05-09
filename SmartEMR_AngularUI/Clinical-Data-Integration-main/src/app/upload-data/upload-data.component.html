@@ -1,0 +1,58 @@
+<div class="container-lg mt-5">
+
+ 
+
+  <div class="container-lg m-5" style="background:#F9F9F9">
+    <h3 class="text-center p-3">Medical Image Upload</h3>
+    <div class="row pb-3" *ngIf="!selectedFile">
+      <div class="col text-left">
+        <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput />
+        <button class="btn btn-info" (click)="fileInput.click()">Select Image</button>
+      </div>
+    </div>
+
+    <div *ngIf="selectedFile">
+      <div class="col text-center p-3">
+        <img style="width:30%" [src]="imageURL" [alt]="selectedFile.name" />
+      </div>
+
+      <div class="col text-center">
+        <span class="px-1">
+          <button class="btn btn-primary px-2" (click)="onUpload()">Analyze Image</button>
+        </span>
+        <span class="px-1">
+          <button class="btn btn-info px-2" (click)="selectedFile = null; tags = []">Clear Image</button>
+        </span>
+      </div>
+
+      <h4 class="text-left mt-3 p-1">Image Descriptors and Tags</h4>
+      <app-tags
+        [tags]="tags"
+        [suggestions]="suggestions"
+        (tagAdded)="onTagAdded($event)"
+        (tagRemoved)="onTagRemoved($event)"
+      >
+      </app-tags>
+    </div>
+
+  </div>
+
+  <div class="container-lg m-5" style="background:#F9F9F9">
+
+    <h3 class="text-center p-3">Clinical Free Text Analysis</h3>
+    <form action="http://sdp2.cse.uconn.edu:8080/process" method = "post">
+      <div class="form-group">
+        <label for="fname">Enter Data:</label>
+        <input type= "text" class = "form-control" rows = "4" placeholder="PID" #pidVal />
+        <textarea type = "text" class="form-control" rows="10" placeholder="Free Text to Analyze" #commentSection></textarea>
+        <input style="display: none" type="submit" value="Submit" (click) = "sendToken(pidVal.value, commentSection.value); activate = !activate" #dataInput />
+        <button class="btn btn-info m-3" (click)="dataInput.click()">Submit</button>
+      </div>
+    </form>
+
+    <div *ngIf="activate">
+      {{commentSection.value}}
+    </div>
+  </div>
+
+</div>
