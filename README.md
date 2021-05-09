@@ -10,4 +10,8 @@ SmartEMR_Imaging/
 SmartEMR_medicalRecords/
 ```
 Doing so will set up local servers for each microservice in SmartEMR's architecture. After completing each service, the frontend Angular Website can be run following the
-instructions in 
+instructions in:
+```
+SmartEMR_AngularUI/
+```
+
